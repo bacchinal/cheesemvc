@@ -18,10 +18,10 @@ import javax.validation.Valid;
 public class CheeseController {
 
     @Autowired
-    CheeseDao cheeseDao;
+    private CheeseDao cheeseDao;
 
     @Autowired
-    CategoryDao categoryDao;
+    private CategoryDao categoryDao;
 
     // Request path: /cheese
     @RequestMapping(value = "")
