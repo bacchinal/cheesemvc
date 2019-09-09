@@ -42,13 +42,16 @@ public class CheeseController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-        public String processAddCheeseForm(@ModelAttribute @Valid Cheese newCheese, Errors errors, Model model) {
+        public String processAddCheeseForm(@ModelAttribute @Valid Cheese newCheese, Errors errors, @RequestParam int categoryId, Model model) {
             if (errors.hasErrors()){
                 model.addAttribute("title", "Add Cheese");
+                model.addAttribute("categories", categoryDao.findAll());
                 return "cheese/add";
             }
+            Category cat = categoryDao.findOne(categoryId);
+            newCheese.setCategory(cat);
             cheeseDao.save(newCheese);
-            return "redirect:";
+        return "redirect:";
         }
 
     @RequestMapping(value = "remove", method = RequestMethod.GET)
@@ -61,8 +64,8 @@ public class CheeseController {
     @RequestMapping(value = "remove", method = RequestMethod.POST)
         public String processRemoveCheeseForm(@RequestParam  int[] cheeseIds) {
 
-            for (int cheeseId : cheeseIds) {
-               cheeseDao.deleteById(cheeseId);
+            for (int id : cheeseIds) {
+               cheeseDao.deleteById(id);
             }
 
             return "redirect:";
